@@ -1,0 +1,33 @@
+HTML CSS JSResult
+EDIT ON
+* {
+    margin: 0!important;
+}
+
+body {
+    margin: 0;
+}
+canvas {
+
+    background: #262626;
+}
+
+#info {
+    color: #FFF;
+    font-family: "Lucida Sans Typewriter", "Lucida Console", Monaco, "Bitstream Vera Sans Mono", monospace;
+    margin: 10px 10px 0;
+    padding: 8px;
+    background: #161616;
+    position: absolute;
+    z-index: 1;
+}
+
+#info h1 {
+    font-size: 18px;
+}
+
+#info p {
+    font-size: 11px;
+}
+
+Resources1×0.5×0.25×Rerun
