@@ -4,67 +4,58 @@ canvas.height = window.innerHeight;
 
 var c = canvas.getContext('2d');
 
-// c.fillStyle = 'rgba(255,0,0,0.2)';
-// c.fillRect(100,100,100,100);
-// c.fillStyle = 'rgba(255,100,0,0.2)';
-// c.fillRect(300,100,100,100);
-// c.fillStyle = 'rgba(255,0,170,0.2)';
-// c.fillRect(500,100,100,100);
-// c.fillStyle = 'rgba(25,150,180,0.2)';
-// c.fillRect(100,600,100,100);
+var mouse = {
+    x: undefined,
+    y: undefined
+}
+var touch = {
+    x: undefined,
+    y: undefined
+}
 
-console.log(canvas);
+var circleCount;
+// var colorArray = ['#fa34a3', '#629CAE', '#333333'];
+var colorArray = ['#aa2463'];
+var strokeColor = ('#ddffdd');
 
-// Line
+window.addEventListener('mousemove', 
+    function(event) {
+        mouse.x = event.x;
+        mouse.y = event.y;
+        console.log(mouse);
+});
 
-// c.beginPath();
-// c.moveTo(200,600);
-// c.lineTo(600,400);
-// c.strokeStyle = "#fa34a3";
-// c.stroke();
+window.addEventListener('touchmove', 
+    function(event) {
+        touch.x = event.x;
+        touch.y = event.y;
+        // console.log(touch);
+});
 
-// arc
-// c.beginPath();
-// c.arc(300,300,30, 0, Math.PI*2, false);
-// c.strokeStyle = "#fa34a3";
-// c.stroke();
+window.addEventListener('resize', function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-// for (var i = 0; i < 200; i++) {
-//     var x = Math.floor(Math.random()*window.innerWidth);
-//     var y = Math.floor(Math.random()*window.innerHeight);
-    let color = ("#" + Math.floor(Math.random()*999999));
-//     c.beginPath();
-//     c.arc(x,y,800, 0, Math.PI*2, false);
-//     c.strokeStyle = color;
-//     c.stroke();
-// }
-
-    // c.beginPath();
-    // c.arc(x,y,800, 0, Math.PI*2, false);
-    // c.strokeStyle = color;
-    // c.stroke();
+    init();
+});
 
 
-    var x = Math.floor(Math.random()*window.innerWidth);
-    var dx = Math.floor((Math.random() - .5 )*18);
-    var y = Math.floor(Math.random()*window.innerHeight);
-    var dy = Math.floor((Math.random() - .5 )*15);
-    var radius = 30;
-    
+
 function Circle(x,y,dx,dy,radius) {
     this.x = x;
     this.y = y;
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
+    this.color = colorArray[Math.floor(Math.random()*colorArray.length)];
 
     this.draw = function() {
         c.beginPath();
         c.arc(this.x,this.y,this.radius, 0, Math.PI*2, false);
-        c.strokeStyle = "#fa34a3";
+        c.strokeStyle = strokeColor;
         c.stroke();
+        c.fillStyle = this.color;
         c.fill();
-        c.fillStyle = "#aa2463";
     }
     this.update = function () {
         if (this.x + this.radius > innerWidth || this.x - this.radius < 0) {
@@ -75,26 +66,47 @@ function Circle(x,y,dx,dy,radius) {
     
         this.x += this.dx;
         this.y += this.dy;
+
+        // interactivity 
+
+        if (mouse.x - this.x < 50 && mouse.x - this.x > -50 && mouse.y - this.y < 50 && mouse.y - this.y > -50) {
+            this.radius =50;
+        } else if (this.radius > radius) {
+            this.radius -= 1;
+        }
+
+        // mobile
+
+
+        // if (touch.x - this.x < 50 && touch.x - this.x > -50 && touch.y - this.y < 50 && touch.y - this.y > -50) {
+        //     this.radius =50;
+        // } else if (this.radius > radius) {
+        //     this.radius -= 1;
+        // }
+        
         this.draw();
     }
 }
 
-var colorArray=["#0067B1", "#FFD700", "#629CAE", "#60696b", "#ffffff", "#333333"];
 
-var circleArray = [];
-for (var i = 0; i < 500; i++) {
-    var radius = Math.floor(Math.random()* 10);
-    var speedCap = 3;
-    var x = Math.random() * (window.innerWidth - (radius * 2)) + radius;
-    var dx = (Math.random() - .5 ) * speedCap;
-    var y = Math.random() * (window.innerHeight - (radius * 2)) + radius;
-    var dy = (Math.random() - .5 ) * speedCap;
-    circleArray.push(new Circle(x, y, dx, dy, radius));
-}
+
 console.log(circleArray);
 
 
-
+var circleArray = [];
+function init() {
+    circleCount =  10 * (window.innerWidth/10);
+    circleArray = [];
+    for (var i = 0; i < circleCount; i++) {
+        var radius = Math.floor(Math.random()* 10 + 1);
+        var speedCap = 3;
+        var x = Math.random() * (window.innerWidth - (radius * 2)) + radius;
+        var dx = (Math.random() - .5 ) * speedCap;
+        var y = Math.random() * (window.innerHeight - (radius * 2)) + radius;
+        var dy = (Math.random() - .5 ) * speedCap;
+        circleArray.push(new Circle(x, y, dx, dy, radius));
+    }
+}
 
 function animate() {
     requestAnimationFrame(animate);
@@ -106,4 +118,5 @@ function animate() {
     
 }
 
+init();
 animate();  
