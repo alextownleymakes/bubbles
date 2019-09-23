@@ -16,8 +16,8 @@ var touch = {
 var popSound = new Audio('pop.wav');
 
 var circleCount;
-// var colorArray = ['#fa34a3', '#629CAE', '#333333'];
-var colorArray = ['#33a678'];
+var colorArray = ['#fa34a3', '#629CAE', '#333333'];
+var colorArray = ["#262626"];
 var strokeColor = ('#dde5dd');
 var dyG = 1;
 var currentColor = "#262626";
@@ -45,18 +45,34 @@ window.addEventListener('resize', function() {
 
 function changeColor() {
     $('.color-change').on('click', function() {
-        if (currentColor == this.id) {
-            currentColor = "#262626";
+        // if (colorArray.includes(this.id) == false) {
+        //     colorArray.push(this.id);
+        //     popSound.play();
+        //     $(this).addClass('click-shadow');
+        // } else {
+        //     let cap = colorArray.indexOf(this.id);
+        //     colorArray.splice(cap);
+        //     popSound.play();
+        //     $(this).removeClass('click-shadow');
+        // }
+        if (this.id == "ACID") {
+            currentColor = ("colorArray[Math.floor(Math.random()*colorArray.length)]");
             $('.color-change').removeClass('click-shadow');
-            popSound.play();
+            $(this).addClass('click-shadow');
         } else {
-            currentColor =  (this.id); 
-            console.log(this.id);
-            popSound.play();
+            if (currentColor == this.id) {
+                currentColor = "#262626";
                 $('.color-change').removeClass('click-shadow');
-                $(this).addClass('click-shadow');
-            
+                popSound.play();
+            } else {
+                currentColor =  (this.id); 
+                console.log(this.id);
+                popSound.play();
+                    $('.color-change').removeClass('click-shadow');
+                    $(this).addClass('click-shadow');
+            }
         }
+
     });
 }
 
@@ -79,7 +95,7 @@ function Circle(x,y,dx,dy,radius) {
 
     this.update = function () {
 
-        var colorArray = ['#33a678'];
+        // var colorArray = ['#33a678'];
         var strokeColor = ('#ddffdd');
         if (this.y == (innerHeight)) {
             this.dy = 0;
@@ -122,7 +138,9 @@ function Circle(x,y,dx,dy,radius) {
         // }
         
         this.draw();
+        
     }
+    
 }
 
 
